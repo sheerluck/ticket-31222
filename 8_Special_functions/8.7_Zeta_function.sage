@@ -1,0 +1,15 @@
+var('a b s x ')
+lst=[[x^2*Psi(1,b*x+a),x,4,],
+[x*Psi(1,b*x+a),x,3,],
+[Psi(1,b*x+a),x,2,],
+[Psi(1,b*x+a)/x,x,1,],
+[Psi(1,b*x+a)/x^2,x,2,],
+[Psi(1,b*x+a)/x^3,x,3,],
+[Psi(1,b*x+a)/x^2-b*Psi(2,b*x+a)/x,x,3,],
+[x^2*Zeta(0,s,b*x+a),x,3,],
+[x*Zeta(0,s,b*x+a),x,2,],
+[Zeta(0,s,b*x+a),x,1,],
+[Zeta(0,s,b*x+a)/x,x,0,],
+[Zeta(0,s,b*x+a)/x^2,x,1,],
+[Zeta(0,s,b*x+a)/x^3,x,2,],
+[Zeta(0,s,b*x+a)/x^2+b*s*Zeta(0,1+s,b*x+a)/x,x,2,]]

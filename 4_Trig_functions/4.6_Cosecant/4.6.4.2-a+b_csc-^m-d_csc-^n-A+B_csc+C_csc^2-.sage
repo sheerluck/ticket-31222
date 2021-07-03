@@ -1,0 +1,2 @@
+var('A B C a b x ')
+lst=[["(a+b*csc(x))*(A+B*csc(x)+C*csc(x)^2)/csc(x)^(1/2)",x,7,"-2/3*b*C*cos(x)*csc(x)^(3/2)-2*(B*b+C*a)*cos(x)*csc(x)^(1/2)+2*(b*B-a*(A-C))*(sin(1/4*pi+1/2*x)^2)^(1/2)/sin(1/4*pi+1/2*x)*elliptic_e(cos(1/4*pi+1/2*x),2^(1/2))*csc(x)^(1/2)*sin(x)^(1/2)-2/3*(3*A*b+3*B*a+C*b)*(sin(1/4*pi+1/2*x)^2)^(1/2)/sin(1/4*pi+1/2*x)*elliptic_f(cos(1/4*pi+1/2*x),2^(1/2))*csc(x)^(1/2)*sin(x)^(1/2)"]]

@@ -69,8 +69,6 @@ def report(desired, test_int, stest) -> None:
     except (TypeError, RuntimeError, ValueError, AttributeError) as e:
         print(f"{Fore.RED}{e}")
         sleep(3)
-    else:
-        sleep(1)
 
 
 def loop(int_table: list, titles: list) -> None:
@@ -90,18 +88,6 @@ def loop(int_table: list, titles: list) -> None:
         print("\n\n")
         print(f"{Fore.CYAN}desired_result")
         print(unicode_art(desired_result))
-
-        '''
-        print("\n\n")
-        print(f"{Fore.CYAN}mathematica_free")
-        try:
-            test_int_m = integrate(integrand, x, algorithm="mathematica_free")
-            print(unicode_art(test_int_m))
-            report(desired_result, test_int_m, f"mathematica_free-{test}")
-        except (TypeError, SyntaxError, RuntimeError, ValueError, AttributeError) as e:
-            print(f"{Fore.RED}{e}")
-            sleep(3)
-        '''
 
         print("\n\n")
         print(f"{Fore.CYAN}sympy")
@@ -139,18 +125,6 @@ def loop(int_table: list, titles: list) -> None:
             print(f"{Fore.RED}{e}")
             sleep(3)
 
-        '''
-        print("\n\n")
-        print(f"{Fore.CYAN}axiom")
-        try:
-            test_int_a = axiom.integrate(integrand,x) 
-            print(test_int_a)  # no unicode_art for old axiom
-            sleep(1)          # no report for old axiom -- unsupported for 'Symbolic Ring' and 'Axiom'
-        except (TypeError, RuntimeError, ValueError, AttributeError) as e:
-            print(f"{Fore.RED}{e}")
-            sleep(3)
-        '''
-
         print("\n\n")
         print(f"{Fore.CYAN}fricas")
         try:
@@ -186,6 +160,23 @@ def decode(c: str) -> str:
     return decode(".".join(p)) + f"/{c}*"
 
 
+def process_one_match(path, index, title):
+    if path.is_file():
+        load(path)
+        if index is None:
+            loop(lst, range(len(lst)))
+        else:
+            problem = lst[int(index)]
+            loop([problem], [title])
+    elif path.is_dir():
+        for m in path.iterdir():
+            print(f"{Fore.RED}{Path(m)}")
+            sleep(3)
+            process_one_match(Path(m), index, title)
+    else:
+        raise ValueError("what is {path}")
+
+
 def main() -> int:
 
     for a in sys.argv[1:]:
@@ -194,22 +185,15 @@ def main() -> int:
             title = 1
 
         pathname = decode(code)[:-1]
-        pathname = f"{pathname}[-_]*"
-        one_match = glob.glob(pathname)
-        if len(one_match) > 1:
-            raise ValueError("nobody expects {one_match}")
-        path = Path(one_match[0])
-        if path.is_file():
-            load(path)
-            if index is None:
-                loop(lst, range(len(lst)))
-            else:
-                problem = lst[int(index)]
-                loop([problem], [title])
-        elif path.is_dir():
-            raise ValueError("path.is_dir is not impllemented :-)")
-        else:
-            raise ValueError("what is {path}")
+        withdot  = f"{pathname}[.-_]*"
+        one_match = glob.glob(withdot)
+        if not one_match:
+            nodot = f"{pathname}[-_]*"
+            one_match = glob.glob(nodot)
+        for m in one_match:
+            print(f"{Fore.RED}{Path(m)}")
+            sleep(3)
+            process_one_match(Path(m), index, title)
     return 0
 
 
